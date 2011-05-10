@@ -1,0 +1,8 @@
+# Russian strings go here
+ru:
+  label_blog_plural: Блог
+  label_post_new: Новая запись
+  label_users_blogs: Блоги пользователей
+  field_tag_list: Список тэгов
+  label_tag_cloud: Облако тэгов
+  label_read_more: Читать далее...

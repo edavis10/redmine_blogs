@@ -1,0 +1,74 @@
+<h2><%=h @blog.title %></h2>
+
+<% if (User.current == @blog.author) %>
+<div class="contextual">
+<%= link_to_if_authorized_with_global l(:button_edit),
+                          {:controller => 'blogs', :action => 'edit', :id => @blog, :global => true},
+                          :class => 'icon icon-edit',
+                          :accesskey => accesskey(:edit),
+                          :onclick => 'Element.show("edit-blog"); return false;' %>
+<%= link_to_if_authorized_with_global l(:button_delete), {:controller => 'blogs', :action => 'destroy', :id => @blog, :global => true}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+</div>
+
+<div id="edit-blog" style="display:none;">
+<% labelled_tabular_form_for :blog, @blog, :url => { :action => "edit", :id => @blog },
+                                           :html => { :id => 'blog-form', 
+                                                      :class => nil,
+                                                      :multipart => true } do |f| %> 
+<%= render :partial => 'form', :locals => { :f => f } %>
+<%= submit_tag l(:button_save) %>
+<%= link_to_remote l(:label_preview),
+                   { :url => { :controller => 'blogs', :action => 'preview', :id => @blog },
+                     :method => 'post',
+                     :update => 'preview',
+                     :with => "Form.serialize('blog-form')"
+                   }, :accesskey => accesskey(:preview) %> |
+<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-blog")' %>
+<% end %>
+<div id="preview" class="wiki"></div>
+</div>
+<% end %>
+<p><em><% unless @blog.summary.blank? %><%=h @blog.summary %><br /><% end %>
+<span class="author"><%= authoring @blog.created_on, @blog.author %></span></em></p>
+<div class="tags">
+<% tag_cloud @blog.tag_counts, %w(css1 css2 css3 css4) do |tag, css_class| %>
+    <%= link_to tag.name, { :action => :show_by_tag, :id => tag.name }, :class => css_class %>
+<% end %>
+</div>
+<div class="wiki">
+<%= textilizable(@blog, :full_description) %>
+</div>
+<br />
+
+<div id="comments" style="margin-bottom:16px;">
+<h3 class="icon22 icon22-comment"><%= l(:label_comment_plural) %></h3>
+<% @comments.each do |comment| %>
+    <% next if comment.new_record? %>
+    <div class="contextual">
+    <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'blogs', :action => 'destroy_comment', :id => @blog, :comment_id => comment},
+                                                       :confirm => l(:text_are_you_sure), :method => :post, :title => l(:button_delete) %>
+    </div>
+    <h4><%= authoring comment.created_on, comment.author %></h4>
+		<div class="wiki">
+    <%= textilizable(comment, :comments) %>
+		</div>
+<% end if @comments.any? %>
+</div>
+
+<% if authorize_for_with_global 'blogs', 'add_comment', true %>
+<p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments" %></p>
+<% form_tag({:action => 'add_comment', :id => @blog}, :id => "add_comment_form", :style => "display:none;") do %>
+<%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %>
+<%= wikitoolbar_for 'comment_comments' %>
+<p><%= submit_tag l(:button_add) %></p>
+<% end %>
+<% end %>
+
+<%= link_to_attachments @blog %>
+
+<% html_title @blog.title -%>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'stylesheet', :plugin => 'redmine_blogs' %>
+  <%= stylesheet_link_tag 'scm' %>
+<% end %>

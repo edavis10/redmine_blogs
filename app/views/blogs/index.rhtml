@@ -1,0 +1,82 @@
+<div class="contextual">
+<%= link_to_if_authorized_with_global(l(:label_post_new),
+                          {:controller => 'blogs', :action => 'new', :global => true},
+                          :class => 'icon icon-add',
+                          :onclick => 'Element.show("add-blog"); return false;') %>
+</div>
+
+<div id="add-blog" style="display:none;">
+<h2><%=l(:label_post_new)%></h2>
+<% labelled_tabular_form_for :blog, @blog, :url => { :controller => 'blogs', :action => 'new' },
+                                           :html => { :id => 'blog-form', 
+                                                      :class => nil,
+                                                      :multipart => true } do |f| %> 
+<%= render :partial => 'blogs/form', :locals => { :f => f } %>
+<%= submit_tag l(:button_create) %>
+<%= link_to_remote l(:label_preview),
+                   { :url => { :controller => 'blogs', :action => 'preview' },
+                     :method => 'post',
+                     :update => 'preview',
+                     :with => "Form.serialize('blog-form')"
+                   }, :accesskey => accesskey(:preview) %> |
+<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-blog")' %>
+<% end %>
+<div id="preview" class="wiki"></div>
+</div>
+<h2><%=l(:label_blog_plural)%></h2>
+
+<div class="splitcontentleft25">
+	<% @blog_users = Blog.find(:all).collect{|b| b.author}.uniq.sort %>
+  <% if @blog_users.any? %>
+	<div class="box">
+		<h3 class="icon22 icon22-users"><%=l(:label_users_blogs)%></h3>	
+    <table class="list" width="300">
+    <tbody>
+		<% @blog_users.each do |user| %>
+    <tr><td width="32"><%= avatar user, :size => 32 %></td><td><%= link_to h(user.name), :controller => 'blogs', :action => 'index', :id => user %></td></tr>
+		<% end %>
+    </tbody>
+    </table>
+	</div>
+	<% end %>
+	<div class="box">
+		<h3 class="icon22 icon22-tags"><%=l(:label_tag_cloud)%></h3>	
+		<div class="tags">
+		<% tag_cloud Blog.tag_counts, %w(css1 css2 css3 css4) do |tag, css_class| %>
+				<%= link_to tag.name, { :action => :show_by_tag, :id => tag.name }, :class => css_class %>
+		<% end %>
+		</div>
+	</div>
+	
+</div>
+
+<div class="splitcontentright75">
+<% if @blogs.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+<% @blogs.each do |blog| %>
+    <h3><%= link_to h(blog.title), :controller => 'blogs', :action => 'show', :id => blog %>
+    <%= "(#{blog.comments_count} #{l(:label_comment, blog.comments_count).downcase})" if blog.comments_count > 0 %></h3>
+    <p class="author"><%= authoring blog.created_on, blog.author %></p>
+    <div class="wiki">
+    <%= textilizable(blog, :short_description) %>
+		<%= link_to(l(:label_read_more), { :action => :show, :id => blog.id }) if blog.has_more? %>
+    </div>
+<% end %>
+<% end %>
+<p class="pagination"><%= pagination_links_full @blogs_pages %></p>
+
+<% other_formats_links do |f| %>
+	<%= f.link_to 'Atom', :url => { :key => User.current.rss_key } %>
+	<%= f.link_to 'RSS', :url => { :key => User.current.rss_key } %>
+<% end %>
+
+</div>
+
+<% content_for :header_tags do %>
+  <% #auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :page => nil, :key => User.current.rss_key})) %>
+  <%= stylesheet_link_tag 'stylesheet', :plugin => 'redmine_blogs' %>
+  <%= stylesheet_link_tag 'scm' %>
+<% end %>
+
+<% html_title(l(:label_blog_plural)) -%>

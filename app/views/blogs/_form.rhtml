@@ -1,0 +1,27 @@
+<%= error_messages_for 'blog' %>
+<div class="box tabular">
+<p><%= f.text_field :title, :required => true, :size => 60 %></p>
+<p><%= f.text_area :summary, :cols => 60, :rows => 2 %></p>
+<p><%= f.text_field :tag_list, :size => 100 %></p>
+<p><%= f.text_area :description, :required => true, :cols => 60, :rows => 15, :class => 'wiki-edit' %></p>
+<p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
+</div>
+
+<%= wikitoolbar_for 'blog_description' %>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'tag_add', :media => :all, :plugin => 'redmine_blogs' %> 
+	<%= javascript_include_tag 'jquery.min.js', :plugin => 'redmine_blogs' %> 
+	<%= javascript_include_tag 'tag_add', :plugin => 'redmine_blogs' %> 
+<% end %>
+
+<script>
+  $j(document).ready(function(){
+		$j("#blog_tag_list").tag_add({
+			maxitem:0, // max item for out, 0-show all 
+			minlength:2, // min length str for search tags 
+			maxlength:10, // max length str for search tags 
+			loadinfo: "<%= url_for(:controller => 'blogs', :action => 'get_tag_list') %>" //file - data tags 
+		});
+	})
+</script>

@@ -1,0 +1,8 @@
+# English strings go here
+en:
+  label_blog_plural: "Blog"
+  label_post_new: New post
+  label_users_blogs: User blogs
+  field_tag_list: Tags list
+  label_tag_cloud: Tag cloud
+  label_read_more: Read more...

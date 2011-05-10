@@ -1,0 +1,6 @@
+<p><%= link_to(h(blog.project.name), :controller => 'projects', :action => 'show', :id => blog.project) + ': ' unless @project %>
+<%= link_to h(blog.title), :controller => 'blogs', :action => 'show', :id => blog %>
+<%= "(#{blog.comments_count} #{lwr(:label_comment, news.comments_count).downcase})" if blog.comments_count > 0 %>
+<br />
+<% unless blog.summary.blank? %><span class="summary"><%=h blog.summary %></span><br /><% end %>
+<span class="author"><%= authoring blog.created_on, blog.author %></span></p>
