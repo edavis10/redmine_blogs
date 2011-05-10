@@ -1,5 +1,3 @@
-require 'application_helper' 
-
 module BlogsPlugin
 	module ApplicationHelperGlobalPatch
     def self.included(base) # :nodoc:    
@@ -21,5 +19,3 @@ module BlogsPlugin
     end
   end
 end
-
-ApplicationHelper.send(:include, BlogsPlugin::ApplicationHelperGlobalPatch)

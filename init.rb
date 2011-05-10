@@ -6,12 +6,19 @@ Dir[File.join(directory,'vendor','plugins','*')].each do |dir|
   ActiveSupport::Dependencies.load_paths << path
   ActiveSupport::Dependencies.load_once_paths.delete(path)
 end
-# see http://www.redmine.org/issues/show/783#note-7
-#require_dependency "#{RAILS_ROOT}/vendor/plugins/redmine_blogs/project_patch"
-require_dependency 'acts_as_taggable'
-require_dependency 'application_helper_global_patch'
-require_dependency 'comment_patch'
-require 'blog'
+
+# Patches to the Redmine core.
+require 'dispatcher'
+
+Dispatcher.to_prepare :redmine_blogs do
+  require_dependency 'acts_as_taggable'
+
+  require_dependency 'application_helper'
+  ApplicationHelper.send(:include, BlogsPlugin::ApplicationHelperGlobalPatch)
+  require_dependency 'comment'
+  require_dependency 'comment_patch'
+end
+
 
 Redmine::Plugin.register :redmine_blogs do
   name 'Redmine Blogs plugin'
