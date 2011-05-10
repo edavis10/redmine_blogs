@@ -45,7 +45,7 @@ class BlogsController < ApplicationController
     if request.post?
       @blog.attributes = params[:blog]
       if @blog.save
-        attach_files(@blog, params[:attachments])
+        Attachment.attach_files(@blog, params[:attachments])
         flash[:notice] = l(:notice_successful_create)
         # Mailer.deliver_blog_added(@blog) if Setting.notified_events.include?('blog_added')
         redirect_to :controller => 'blogs', :action => 'index'

@@ -2,12 +2,20 @@
 
 <% if (User.current == @blog.author) %>
 <div class="contextual">
-<%= link_to_if_authorized_with_global l(:button_edit),
-                          {:controller => 'blogs', :action => 'edit', :id => @blog, :global => true},
-                          :class => 'icon icon-edit',
-                          :accesskey => accesskey(:edit),
-                          :onclick => 'Element.show("edit-blog"); return false;' %>
-<%= link_to_if_authorized_with_global l(:button_delete), {:controller => 'blogs', :action => 'destroy', :id => @blog, :global => true}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+  <% if User.current.allowed_to?({:controller => 'blogs', :action => 'edit'}, nil, {:global => true}) %>
+    <%= link_to(l(:button_edit),
+                {:controller => 'blogs', :action => 'edit', :id => @blog},
+                :class => 'icon icon-edit',
+                :accesskey => accesskey(:edit),
+                :onclick => 'Element.show("edit-blog"); return false;') %>
+    <% end %>
+  <% if User.current.allowed_to?({:controller => 'blogs', :action => 'destroy'}, nil, {:global => true}) %>
+    <%= link_to(l(:button_delete),
+                {:controller => 'blogs', :action => 'destroy', :id => @blog},
+                :confirm => l(:text_are_you_sure),
+                :method => :post,
+                :class => 'icon icon-del') %>
+    <% end %>
 </div>
 
 <div id="edit-blog" style="display:none;">
@@ -45,8 +53,14 @@
 <% @comments.each do |comment| %>
     <% next if comment.new_record? %>
     <div class="contextual">
-    <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'blogs', :action => 'destroy_comment', :id => @blog, :comment_id => comment},
-                                                       :confirm => l(:text_are_you_sure), :method => :post, :title => l(:button_delete) %>
+      <% if User.current.allowed_to?({:controller => 'blogs', :action => 'destroy_comment'}, nil, {:global => true}) %>
+        <%= link_to(l(:button_delete),
+                    {:controller => 'blogs', :action => 'destroy_comment', :id => @blog, :comment_id => comment.id},
+                    :confirm => l(:text_are_you_sure),
+                    :method => :post,
+                    :class => 'icon icon-del',
+                    :title => l(:button_delete)) %>
+    <% end %>
     </div>
     <h4><%= authoring comment.created_on, comment.author %></h4>
 		<div class="wiki">
