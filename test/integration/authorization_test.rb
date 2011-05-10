@@ -18,7 +18,7 @@ class AuthorizationTest < ActionController::IntegrationTest
     end
     
     should "be able to see the Blogs menu item" do
-      assert find("#main-menu li a", :text => /Blogs/)
+      assert find("#top-menu li a", :text => /Blogs/)
     end
 
     should "be able to see the list of user blogs" do

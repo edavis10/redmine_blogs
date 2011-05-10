@@ -36,7 +36,7 @@ Redmine::Plugin.register :redmine_blogs do
   #menu :project_menu, :blogs, {:controller => 'blogs', :action => 'index'},
   #  :caption => 'Blog', :after => :news, :param => :project_id
 
-  menu :application_menu, :blogs, { :controller => 'blogs', :action => 'index' }, :caption => 'Blogs'
+  menu :top_menu, :blogs, { :controller => 'blogs', :action => 'index' }, :caption => 'Blogs'
 
 end
 Redmine::Activity.map do |activity|
