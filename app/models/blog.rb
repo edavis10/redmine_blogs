@@ -9,6 +9,11 @@ class Blog < ActiveRecord::Base
   validates_length_of :title, :maximum => 255
   validates_length_of :summary, :maximum => 255
 
+  attr_accessible :summary
+  attr_accessible :description
+  attr_accessible :title
+  attr_accessible :tag_list
+
   #acts_as_searchable :columns => ['description', "#{Blog.table_name}.description"]
   #acts_as_event :url => Proc.new {|o| {:controller => 'blogs', :action => 'show', :id => o.id}}
   #acts_as_activity_provider :find_options => {:include => [:author]}

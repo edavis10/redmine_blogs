@@ -250,4 +250,52 @@ class AuthorizationTest < ActionController::IntegrationTest
 
     end
   end
+
+  should "not allow users to create blogs for other users" do
+    @role = Role.generate(:permissions => [:view_blogs, :comment_blogs, :manage_blogs])
+    User.add_to_project(@user, @project, @role)
+    login_as(@user.login, 'test')
+    visit_home
+
+    click_link "Blogs"
+
+    assert_difference("Blog.count") do
+      page.driver.post "/blogs/new", {
+        :blog => {
+          "summary" => 'a summary',
+          "title" => 'a title',
+          "description" => 'a description',
+          "author_id" => @user2.id.to_s
+        }
+      }
+    end
+
+    blog = Blog.last
+    assert_equal @user, blog.author, "Blog author was changed from params"
+
+  end
+
+  should "not allow users to update blog authors" do
+    @role = Role.generate(:permissions => [:view_blogs, :comment_blogs, :manage_blogs])
+    User.add_to_project(@user, @project, @role)
+    login_as(@user.login, 'test')
+    visit_home
+
+    click_link "Blogs"
+
+    page.driver.post "/blogs/edit/#{@blog1.id}", {
+      :blog => {
+        "summary" => 'a summary',
+        "title" => 'a title',
+        "description" => 'a description',
+        "author_id" => @user2.id.to_s
+      }
+    }
+
+    @blog1.reload
+    assert_equal @user, @blog1.author, "Blog author was changed from params"
+
+  end
+
+
 end
