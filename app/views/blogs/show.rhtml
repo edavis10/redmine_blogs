@@ -48,6 +48,8 @@
 </div>
 <br />
 
+<%= link_to_attachments @blog %>
+
 <div id="comments" style="margin-bottom:16px;">
 <h3 class="icon22 icon22-comment"><%= l(:label_comment_plural) %></h3>
 <% @comments.each do |comment| %>
@@ -77,8 +79,6 @@
 <p><%= submit_tag l(:button_add) %></p>
 <% end %>
 <% end %>
-
-<%= link_to_attachments @blog %>
 
 <% html_title @blog.title -%>
 
