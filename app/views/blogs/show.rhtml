@@ -1,3 +1,5 @@
+<%= breadcrumb(link_to(l(:label_blog_plural), :controller => 'blogs', :action => 'index')) %>
+
 <h2><%=h @blog.title %></h2>
 
 <% if (User.current == @blog.author) %>

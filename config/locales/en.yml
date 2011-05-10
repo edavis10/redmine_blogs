@@ -1,6 +1,6 @@
 # English strings go here
 en:
-  label_blog_plural: "Blog"
+  label_blog_plural: "Blogs"
   label_post_new: New post
   label_users_blogs: User blogs
   field_tag_list: Tags list
