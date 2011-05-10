@@ -36,7 +36,9 @@ Redmine::Plugin.register :redmine_blogs do
   #menu :project_menu, :blogs, {:controller => 'blogs', :action => 'index'},
   #  :caption => 'Blog', :after => :news, :param => :project_id
 
-  menu :top_menu, :blogs, { :controller => 'blogs', :action => 'index' }, :caption => 'Blogs'
+  menu :top_menu, :blogs, { :controller => 'blogs', :action => 'index' }, :caption => 'Blogs', :if => Proc.new {
+    User.current.allowed_to?({:controller => 'blogs', :action => 'index'}, nil, {:global => true})
+  }
 
 end
 Redmine::Activity.map do |activity|

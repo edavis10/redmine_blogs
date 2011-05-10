@@ -84,8 +84,8 @@ end
 
 class ActiveSupport::TestCase
   def assert_forbidden
-    assert_response :forbidden
-    assert_template 'common/403'
+    assert_response 403
+    assert has_content?("not authorized to access this page")
   end
 
   def configure_plugin(configuration_change={})

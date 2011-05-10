@@ -90,13 +90,47 @@ class AuthorizationTest < ActionController::IntegrationTest
   end
 
   context "with view blogs permission disabled" do
-    should "not be able to see the Blogs menu item"
-    should "not be able to see the list of user blogs"
-    should "not be able to view a blog post"
-    should "not be able to comment on a blog post"
-    should "not be able to add a new blog post"
-    should "not be able to delete a blog post"
-    should "not be able to edit a blog post"
+    setup do
+      @role = Role.generate(:permissions => [])
+      User.add_to_project(@user, @project, @role)
+      login_as(@user.login, 'test')
+      visit_home
+    end
+
+    should "not be able to see the Blogs menu item" do
+      assert has_no_css?("#top-menu li a.blogs", :text => /Blogs/)
+    end
+    
+    should "not be able to see the list of user blogs" do
+      visit "/blogs"
+      assert_forbidden
+    end
+    
+    should "not be able to view a blog post" do
+      visit "/blogs/show/#{@blog1.id}"
+      assert_forbidden
+    end
+    
+    should "not be able to comment on a blog post" do
+      page.driver.post "/blogs/add_comment/#{@blog1.id}", {}
+      assert_forbidden
+    end
+    
+    should "not be able to add a new blog post" do
+      page.driver.post "/blogs/new", {}
+      assert_forbidden
+    end
+    
+    should "not be able to delete a blog post" do
+      page.driver.post "/blogs/destroy/1", {}
+      assert_forbidden
+    end
+    
+    should "not be able to edit a blog post" do
+      page.driver.post "/blogs/edit/1", {}
+      assert_forbidden
+    end
+
     should "not be able to delete a blog comment"
   end
 

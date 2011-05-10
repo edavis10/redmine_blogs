@@ -1,4 +1,3 @@
-#require 'tag'
 class BlogsController < ApplicationController
   unloadable
 
@@ -6,10 +5,8 @@ class BlogsController < ApplicationController
   include AttachmentsHelper
 
   before_filter :find_blog, :except => [:new, :index, :preview, :show_by_tag, :get_tag_list]
-  #before_filter :find_project, :only => [:new, :preview]
-  #before_filter :authorize, :except => [:index, :preview]
   before_filter :find_user, :only => [:index]
-  before_filter :find_optional_project, :except => [:index, :preview, :show_by_tag, :get_tag_list]
+  before_filter :authorize_global
   accept_key_auth :index
 
   def index
@@ -104,27 +101,14 @@ class BlogsController < ApplicationController
 private
   def find_blog
     @blog = Blog.find(params[:id])
-    #@project = @blog.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
   def find_user
     @user = User.find(params[:id]) if params[:id]
-    #@blog = Blog.find_by_user(@user)
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
-  def find_optional_project
-    #return true unless params[:project_id]
-    @project = Project.find(params[:project_id]) unless params[:project_id].blank?
-    allowed = User.current.allowed_to?({:controller => params[:controller], :action => params[:action]}, @project, :global => true)
-    allowed ? true : deny_access
-
-    #@project = Project.find(params[:project_id])
-    #authorize
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
 end
