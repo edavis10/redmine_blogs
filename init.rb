@@ -12,12 +12,13 @@ require 'dispatcher'
 
 Dispatcher.to_prepare :redmine_blogs do
 
+  require_dependency 'comment'
+  Comment.send(:include, RedmineBlogs::Patches::CommentPatch)
+
   require_dependency 'application_controller'
   ApplicationController.send(:include, RedmineBlogs::Patches::ApplicationControllerPatch)
-  require_dependency 'acts_as_taggable'
 
-  require_dependency 'comment'
-  require_dependency 'comment_patch'
+  require_dependency 'acts_as_taggable'
 end
 
 
