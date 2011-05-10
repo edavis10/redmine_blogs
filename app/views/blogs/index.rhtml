@@ -1,8 +1,10 @@
 <div class="contextual">
-<%= link_to_if_authorized_with_global(l(:label_post_new),
-                          {:controller => 'blogs', :action => 'new', :global => true},
-                          :class => 'icon icon-add',
-                          :onclick => 'Element.show("add-blog"); return false;') %>
+  <% if User.current.allowed_to?({:controller => 'blogs', :action => 'new'}, nil, {:global => true}) %>
+    <%= link_to(l(:label_post_new),
+                {:controller => 'blogs', :action => 'new', :global => true},
+                :class => 'icon icon-add',
+                :onclick => 'Element.show("add-blog"); return false;') %>
+  <% end %>
 </div>
 
 <% if User.current.allowed_to?({:controller => 'blogs', :action => 'new'}, @project, {:global => true}) %>

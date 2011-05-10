@@ -7,7 +7,7 @@ module RedmineBlogs
         base.send(:include, InstanceMethods)
         base.class_eval do
           unloadable
-          helper :blogs
+          helper :tags
 
         end
       end
