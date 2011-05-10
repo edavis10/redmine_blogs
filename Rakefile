@@ -15,11 +15,11 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |s|
     s.name = "redmine_blogs"
-    s.summary = "Plugin that adds user blogs to Redmine"
+    s.summary = "Blog plugin for Redmine"
     s.email = "edavis@littlestreamsoftware.com"
-    s.homepage = "https://projects.littlestreamsoftware.com/projects/"
-    s.description = ""
-    s.authors = ["Eric Davis"]
+    s.homepage = "http://www.redmine.org/boards/3/topics/5782"
+    s.description = "Blog plugin for Redmine"
+    s.authors = ["Andrew Chaika","Eric Davis"]
     s.rubyforge_project = "TODO" # TODO
     s.files =  FileList[
                         "[A-Z]*",

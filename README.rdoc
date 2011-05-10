@@ -1,0 +1,33 @@
+= Blogs
+
+Blog plugin for Redmine. Just like News :)
+
+Author: KyAnh <xkyanh@gmail.com>
+
+== Features
+
+TODO: fill in features
+
+== TODO
+
+* category support
+
+== Getting the plugin
+
+A copy of the plugin can be downloaded from {GitHub}[http://github.com/edavis10/redmine_blogs]
+
+
+== Installation and Setup
+
+1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins 
+2. Run the plugin migrations +rake db:migrate_plugins+
+3. Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
+
+== Usage
+
+TODO: Add usage
+
+== Project help
+
+If you need help you can contact the maintainer.
+
