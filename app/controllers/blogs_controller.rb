@@ -57,7 +57,7 @@ class BlogsController < ApplicationController
   def edit
     render_403 if User.current != @blog.author
     if request.post? and @blog.update_attributes(params[:blog])
-      attachments = attach_files(@blog, params[:attachments])
+      Attachment.attach_files(@blog, params[:attachments])
       flash[:notice] = l(:notice_successful_update)
     end
     redirect_to :action => 'show', :id => @blog
