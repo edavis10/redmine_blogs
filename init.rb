@@ -28,7 +28,7 @@ Redmine::Plugin.register :redmine_blogs do
   version '0.1.0'
 
   #project_module :blogs do
-  permission :manage_blogs, :blogs => [:new, :delete, :edit, :destroy_comment, :destroy]
+  permission :manage_blogs, :blogs => [:new, :edit, :destroy_comment, :destroy]
   permission :comment_blogs, :blogs => :add_comment
   permission :view_blogs, :blogs => [:index, :show]
   #end

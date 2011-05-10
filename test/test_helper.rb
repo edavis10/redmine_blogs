@@ -19,7 +19,7 @@ module ChiliProjectIntegrationTestHelper
     visit "/login"
     fill_in 'Login', :with => user
     fill_in 'Password', :with => password
-    click_button 'login'
+    click_button 'Login'
     assert_response :success
     assert User.current.logged?
   end

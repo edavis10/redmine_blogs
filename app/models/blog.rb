@@ -58,4 +58,30 @@ class Blog < ActiveRecord::Base
 	def full_description()
 		description.gsub(/\{\{more\}\}/mi,"")
 	end
+
+  if Rails.env.test?
+    generator_for :title, :method => :next_title
+    generator_for :description, :method => :next_description
+    generator_for :summary, :method => :next_summary
+
+    def self.next_title
+      @last_title ||= 'Title 0000'
+      @last_title.succ!
+      @last_title
+    end
+
+    def self.next_description
+      @last_description ||= 'Description 0000'
+      @last_description.succ!
+      @last_description
+    end
+
+    def self.next_summary
+      @last_summary ||= 'Summary 0000'
+      @last_summary.succ!
+      @last_summary
+    end
+    
+  end
+  
 end

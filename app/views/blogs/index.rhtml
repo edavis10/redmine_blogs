@@ -5,6 +5,7 @@
                           :onclick => 'Element.show("add-blog"); return false;') %>
 </div>
 
+<% if User.current.allowed_to?({:controller => 'blogs', :action => 'new'}, @project, {:global => true}) %>
 <div id="add-blog" style="display:none;">
 <h2><%=l(:label_post_new)%></h2>
 <% labelled_tabular_form_for :blog, @blog, :url => { :controller => 'blogs', :action => 'new' },
@@ -23,6 +24,8 @@
 <% end %>
 <div id="preview" class="wiki"></div>
 </div>
+<% end %>
+
 <h2><%=l(:label_blog_plural)%></h2>
 
 <div class="splitcontentleft25">
@@ -30,7 +33,7 @@
   <% if @blog_users.any? %>
 	<div class="box">
 		<h3 class="icon22 icon22-users"><%=l(:label_users_blogs)%></h3>	
-    <table class="list" width="300">
+    <table class="blogs list" width="300">
     <tbody>
 		<% @blog_users.each do |user| %>
     <tr><td width="32"><%= avatar user, :size => 32 %></td><td><%= link_to h(user.name), :controller => 'blogs', :action => 'index', :id => user %></td></tr>

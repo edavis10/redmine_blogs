@@ -1,3 +1,5 @@
+require_dependency 'comment'
+
 class Comment < ActiveRecord::Base
   def attachments
     commented.respond_to?(:attachments) ? commented.attachments : nil
