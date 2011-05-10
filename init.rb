@@ -28,14 +28,9 @@ Redmine::Plugin.register :redmine_blogs do
   description 'Redmine Blog engine [froked from Kyanh version]'
   version '0.1.0'
 
-  #project_module :blogs do
   permission :manage_blogs, :blogs => [:new, :edit, :destroy_comment, :destroy]
   permission :comment_blogs, :blogs => :add_comment
   permission :view_blogs, :blogs => [:index, :show]
-  #end
-
-  #menu :project_menu, :blogs, {:controller => 'blogs', :action => 'index'},
-  #  :caption => 'Blog', :after => :news, :param => :project_id
 
   menu :top_menu, :blogs, { :controller => 'blogs', :action => 'index' }, :caption => 'Blogs', :if => Proc.new {
     User.current.allowed_to?({:controller => 'blogs', :action => 'index'}, nil, {:global => true})
