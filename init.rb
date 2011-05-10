@@ -11,10 +11,11 @@ end
 require 'dispatcher'
 
 Dispatcher.to_prepare :redmine_blogs do
+
+  require_dependency 'application_controller'
+  ApplicationController.send(:include, RedmineBlogs::Patches::ApplicationControllerPatch)
   require_dependency 'acts_as_taggable'
 
-  require_dependency 'application_helper'
-  ApplicationHelper.send(:include, BlogsPlugin::ApplicationHelperGlobalPatch)
   require_dependency 'comment'
   require_dependency 'comment_patch'
 end
