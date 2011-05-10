@@ -1,6 +1,7 @@
 # copied from /app/models/news.rb
 
 class Blog < ActiveRecord::Base
+  unloadable
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   has_many :comments, :as => :commented, :dependent => :delete_all, :order => "created_on"
 	acts_as_taggable
