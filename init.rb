@@ -24,9 +24,9 @@ end
 
 Redmine::Plugin.register :redmine_blogs do
   name 'Redmine Blogs plugin'
-  author 'A. Chaika'
-  description 'Redmine Blog engine [froked from Kyanh version]'
-  version '0.1.0'
+  author 'A. Chaika, Kyanh, Eric Davis'
+  description 'Redmine Blog plugin'
+  version '0.2.0-edavis10'
 
   permission :manage_blogs, :blogs => [:new, :edit, :destroy_comment, :destroy]
   permission :comment_blogs, :blogs => :add_comment
