@@ -56,19 +56,7 @@
 </div>
 
 <div class="splitcontentright75">
-<% if @blogs.empty? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
-<% else %>
-<% @blogs.each do |blog| %>
-    <h3><%= link_to h(blog.title), :controller => 'blogs', :action => 'show', :id => blog %>
-    <%= "(#{blog.comments_count} #{l(:label_comment, blog.comments_count).downcase})" if blog.comments_count > 0 %></h3>
-    <p class="author"><%= authoring blog.created_on, blog.author %></p>
-    <div class="wiki">
-    <%= textilizable(blog, :short_description) %>
-		<%= link_to(l(:label_read_more), { :action => :show, :id => blog.id }) if blog.has_more? %>
-    </div>
-<% end %>
-<% end %>
+<%= render :partial => 'list', :locals => {:blogs => @blogs} %>
 <p class="pagination"><%= pagination_links_full @blogs_pages %></p>
 
 <% other_formats_links do |f| %>

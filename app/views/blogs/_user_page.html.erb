@@ -1,0 +1,5 @@
+<h2><%=l(:label_users_blogs)%></h2>
+
+<%= render :partial => 'blogs/list', :locals => {:blogs => blogs} %>
+
+<p><%= link_to(l(:label_all_blogs), :controller => 'blogs', :action => 'index', :id => user) %></p>
