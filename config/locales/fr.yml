@@ -1,0 +1,9 @@
+# fr strings go here
+fr:
+  label_blog_plural: "Blogs"
+  label_post_new: Nouvel article
+  label_users_blogs: Utilisateurs du blogs
+  field_tag_list: Liste des mots clés
+  label_tag_cloud: Nuage de mots clés
+  label_read_more: Lire la suite...
+  label_all_blogs: "Tous les articles du blog"
