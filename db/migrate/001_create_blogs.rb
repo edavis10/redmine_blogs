@@ -15,7 +15,5 @@ class CreateBlogs < ActiveRecord::Migration
 
   def self.down
     drop_table :blogs
-    remove_index :blogs, :project_id
-    remove_index :blogs, :author_id
   end
 end
